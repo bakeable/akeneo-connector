@@ -24,7 +24,7 @@ from akeneo_connector import AkeneoConnector
 connector = AkeneoConnector(username='your_username', password='your_password', auth_token='your_auth_token', auth_url='your_auth_url')
 
 # Use the connector to make API requests
-products = connector.get('https://your_akeneo_instance/api/rest/v1/products')
+products = connector.get(connect.products_url)
 print(products)
 ```
 
