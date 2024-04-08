@@ -53,7 +53,7 @@ while paginator.next():
         print(product)
 
 # Or iterate over all products directly
-for i, product in paginator:
+for product in paginator:
     print(i, product.identifer)
 ```
 
@@ -75,6 +75,9 @@ from akeneo.akeneo_product import AkeneoProduct
 
 # Assume `product_data` is a dictionary containing product information
 product = AkeneoProduct(product_data)
+
+# Or retrieve the product by identifier
+product = AkeneoProduct().get('1234')
 ```
 
 Retrieving Product Attributes
