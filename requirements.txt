@@ -1,0 +1,4 @@
+setuptools==57.4.0
+python-dotenv==1.0.0
+requests==2.31.0
+requests-toolbelt==1.0.0
