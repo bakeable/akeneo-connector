@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from akeneo import AkeneoProduct, AkeneoConnector
+from akeneo_connector import AkeneoProduct, AkeneoConnector
 
 # Create an instance of the AkeneoConnector class
 connector = AkeneoConnector()

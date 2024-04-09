@@ -1,6 +1,6 @@
 from typing import TypedDict, Optional
 
-from akeneo.akeneo_connector import AkeneoConnector
+from akeneo_connector.akeneo_connector import AkeneoConnector
 
 class Value(TypedDict):
      locale: Optional[str]

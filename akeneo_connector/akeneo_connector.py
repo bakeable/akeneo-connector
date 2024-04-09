@@ -129,23 +129,17 @@ class AkeneoConnector:
 
         # Set the payload to the joined JSON-strings
         print(f"PATCH {url}")
-        print(data_str)
-        #response = req.patch(url, headers=self.headers, data=data_str)
-        response = {
-            'status_code': 200,
-            'text': 'Success'
-        }
-        return response
+        response = req.patch(url, headers=self.headers, data=data_str)
 
-        # # Check if the request was successful
-        # if response.status_code < 200 or response.status_code >= 300:
-        #     print(f"Request error: {response.status_code} - {response.text}")
-        #     return None
+        # Check if the request was successful
+        if response.status_code < 200 or response.status_code >= 300:
+            print(f"Request error: {response.status_code} - {response.text}")
+            return None
         
-        # # Try to parse the response as JSON
-        # try:
-        #     data = response.json()
-        # except:
-        #     data = response.text
+        # Try to parse the response as JSON
+        try:
+            data = response.json()
+        except:
+            data = response.text
 
-        # return data
+        return data

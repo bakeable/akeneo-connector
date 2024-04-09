@@ -1,3 +1,0 @@
-from akeneo.akeneo_connector import AkeneoConnector
-from akeneo.akeneo_paginator import AkeneoPaginator
-from akeneo.akeneo_product import AkeneoProduct

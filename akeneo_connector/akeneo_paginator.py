@@ -1,5 +1,5 @@
-from akeneo.akeneo_connector import AkeneoConnector
-from akeneo.akeneo_product import AkeneoProduct
+from akeneo_connector.akeneo_connector import AkeneoConnector
+from akeneo_connector.akeneo_product import AkeneoProduct
 
 
 
@@ -32,7 +32,7 @@ class AkeneoPaginator:
 
         # Add version
         url = url.format(version=version)
-        
+
         # Initialize the AkeneoPaginator class
         self.response = None
         self.items: list[AkeneoProduct] | list[dict] = []
