@@ -45,7 +45,7 @@ from akeneo_connector import AkeneoConnector
 from akeneo_paginator import AkeneoPaginator
 
 # Initialize the paginator
-paginator = AkeneoPaginator(AkeneoPaginator.PRODUCTS_URL)
+paginator = AkeneoPaginator(AkeneoPaginator.products_url)
 
 # Fetch and print all products
 while paginator.next():

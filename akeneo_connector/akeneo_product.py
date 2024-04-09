@@ -30,9 +30,6 @@ class AkeneoProduct:
 
     """
 
-    # Constants
-    PRODUCT_URL = 'https://bordex.cloud.akeneo.com/api/rest/{version}/products/{identifier}'
-
     def __init__(self, data: dict = {}, connector: AkeneoConnector = AkeneoConnector()):
         # Initialize the AkeneoProduct classs
         self.set(data)

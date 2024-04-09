@@ -21,11 +21,11 @@ class AkeneoConnector:
     """
 
     # Constants
-    PRODUCT_URL = 'https://bordex.cloud.akeneo.com/api/rest/{version}/products/{identifier}'
-    PRODUCTS_URL = 'https://bordex.cloud.akeneo.com/api/rest/{version}/products'
+    PRODUCT_URL = 'https://{origin}/api/rest/{version}/products/{identifier}'
+    PRODUCTS_URL = 'https://{origin}/api/rest/{version}/products'
 
 
-    def __init__(self, username = None, password = None, auth_token = None, auth_url = None, version='v1'):
+    def __init__(self, origin: str | None = None, username = None, password = None, auth_token = None, auth_url = None, version='v1'):
         """
         Initializes an instance of the AkeneoConnector class.
 
@@ -36,7 +36,7 @@ class AkeneoConnector:
             auth_url (str): The URL to authenticate with.
         """
         # Initialize the AkeneoConnector class
-        self.products_url = os.getenv('AKENEO_PRODUCTS_URL')
+        self.origin = os.getenv('AKENEO_ORIGIN') if origin is None else origin
         self.username = os.getenv('AKENEO_USERNAME') if username is None else username
         self.password = os.getenv('AKENEO_PASSWORD') if password is None else password
         self.auth_token = base64.b64encode((os.getenv('AKENEO_AUTH_TOKEN')  if auth_token is None else auth_token).encode()).decode()
@@ -47,8 +47,8 @@ class AkeneoConnector:
             'Content-type': 'application/vnd.akeneo.collection+json'
         }
         self.version = version
-        self.product_url = self.PRODUCT_URL.format(version=self.version, identifier='{identifier}')
-        self.products_url = self.PRODUCTS_URL.format(version=self.version)
+        self.product_url = self.PRODUCT_URL.format(origin=self.origin, version=self.version, identifier='{identifier}')
+        self.products_url = self.PRODUCTS_URL.format(origin=self.origin, version=self.version)
 
     def get_access_token(self):
         """
