@@ -47,7 +47,9 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -am "Bump minor version [skip ci]"
+        git remote set-url origin https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
         git push
+      
         
     - name: Build package
       run: python -m build
