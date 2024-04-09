@@ -30,11 +30,14 @@ class AkeneoProduct:
 
     """
 
-    def __init__(self, data: dict = {}, connector: AkeneoConnector = AkeneoConnector()):
+    def __init__(self, data: dict = {}, connector: AkeneoConnector | None = None):
         # Initialize the AkeneoProduct classs
         self.set(data)
 
-        self.connector = connector
+        if connector is None:
+            self.connector = AkeneoConnector()
+        else:
+            self.connector = connector
 
     def set(self, data: dict):
         """
