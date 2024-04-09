@@ -36,10 +36,15 @@ class AkeneoConnector:
             auth_url (str): The URL to authenticate with.
         """
         # Initialize the AkeneoConnector class
+        # Initialize the AkeneoConnector class
+        auth_token = os.getenv('AKENEO_AUTH_TOKEN') if auth_token is None else auth_token
+        if auth_token is None:
+            raise ValueError("auth_token is required")
+        
         self.origin = os.getenv('AKENEO_ORIGIN') if origin is None else origin
         self.username = os.getenv('AKENEO_USERNAME') if username is None else username
         self.password = os.getenv('AKENEO_PASSWORD') if password is None else password
-        self.auth_token = base64.b64encode((os.getenv('AKENEO_AUTH_TOKEN')  if auth_token is None else auth_token).encode()).decode()
+        self.auth_token = base64.b64encode(auth_token.encode()).decode()
         self.auth_url = os.getenv('AKENEO_AUTH_URL') if auth_url is None else auth_url
         self.access_token = self.get_access_token()
         self.headers = {
