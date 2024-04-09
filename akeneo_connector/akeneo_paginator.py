@@ -22,6 +22,11 @@ class AkeneoPaginator:
         Args:
             response (dict): The response from the Akeneo API.
         """
+        # Initialize the AkeneoPaginator class
+        self.connector = AkeneoConnector(version=version)
+
+        if url is None:
+            url = self.connector.products_url
 
         # Initialize the AkeneoPaginator class
         self.response = None
@@ -37,10 +42,6 @@ class AkeneoPaginator:
         self.page_size = page_size
         self.current_page = 1
         self.page_size = page_size
-        self.connector = AkeneoConnector(version=version)
-
-        if url is None:
-            url = self.connector.products_url
         
         if url not in [
             self.connector.products_url,
