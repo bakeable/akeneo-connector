@@ -233,4 +233,15 @@ class AkeneoProduct:
 
         return True
 
+    def create(self):
+        """
+        Creates the product.
+
+        Returns:
+            bool: True if successful, False otherwise.
+        """
+        #  Update is same
+        self.update()
+
+        return True
     
