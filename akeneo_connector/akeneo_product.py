@@ -227,14 +227,21 @@ class AkeneoProduct:
         Updates the product.
 
         Returns:
-            bool: True if successful, False otherwise.
+            bool: JSON response if successful, None otherwise.
         """
         # Build the URL
         url = self.connector.product_url.format(identifier=self.identifier)
 
         # Update the product
-        self.connector.update(url, self.payload())
+        return self.connector.update(url, self.payload())
 
-        return True
+    def create(self):
+        """
+        Creates the product.
 
+        Returns:
+            bool: JSON response if successful, None otherwise.
+        """
+        #  Update is same
+        return self.update()
     
