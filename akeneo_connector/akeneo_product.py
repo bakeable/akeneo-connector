@@ -253,7 +253,7 @@ class AkeneoProduct:
         Returns:
             bytes: The content of the image, or None if not found
         """
-        image_data = self.values.get_value(image_attribute, locale, scope, [])
+        image_data = self.get_value(image_attribute, locale, scope, [])
         if image_data:
             download_link = image_data[0]['_links']['download']['href']
             return self.connector.get_media_file(download_link)
