@@ -148,3 +148,20 @@ class AkeneoConnector:
             data = response.text
 
         return data
+
+    def get_media_file(self, media_url):
+        """
+        Gets the media file from Akeneo.
+
+        Args:
+            media_url (str): The URL of the media file.
+
+        Returns:
+            response: The response object containing the media file.
+        """
+        response = req.get(media_url, headers=self.headers)
+        if response.status_code == 200:
+            return response.content
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+            return None
