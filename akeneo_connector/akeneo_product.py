@@ -70,7 +70,7 @@ class AkeneoProduct:
         return {
             'uuid': self.uuid,
             'identifier': self.identifier,
-            'values': self.values,
+            'values': self.updated_values,
         }
     
     def get_scopes(self, attribute: str) -> list[str]:
