@@ -241,3 +241,18 @@ class AkeneoProduct:
         #  Update is same
         return self.update()
     
+    def get_image(self, image_attribute):
+        """
+        Downloads the image for the specified attribute.
+
+        Args:
+            image_attribute (str): The name of the attribute containing the image.
+
+        Returns:
+            bytes: The content of the image, or None if not found
+        """
+        image_data = self.values.get(image_attribute, [])
+        if image_data:
+            download_link = image_data[0]['_links']['download']['href']
+            return self.connector.get_media_file(download_link)
+        return None
