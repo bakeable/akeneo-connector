@@ -117,3 +117,9 @@ if fetched_product:
 else:
     print("Product not found.")
 ```
+
+You can get images associated with a specific attribute from Akeneo products using the get_image method. This method allows you to specify the attribute name, locale, and scope to retrieve the correct image. To get an image attribute:
+```python
+# Get a image attribute for locale en_US and scope ecommerce
+product.get_image('thumbnail', locale='en_US', scope='ecommerce')
+```
