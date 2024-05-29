@@ -119,7 +119,7 @@ class AkeneoProduct:
         """
         return self.values.get(attribute, [])
     
-    def get_value(self, attribute: str, locale: str | None = None, scope: str | None = None) -> Value:
+    def get_value(self, attribute: str, locale: str | None = None, scope: str | None = None) -> any:
         """
         Gets the value for the given attribute.
 
@@ -129,7 +129,7 @@ class AkeneoProduct:
             scope (str): The scope of the value.
 
         Returns:
-            str: The value of the attribute.
+            str: The value of the attribute. None if not found.
         """
         # Failsafe
         if attribute not in self.values:
@@ -140,8 +140,12 @@ class AkeneoProduct:
             if value.get('locale') == locale and value.get('scope') == scope:
                 return value.get('data')
 
-        # Return the first value if locale and scope are not found
-        return self.values[attribute][0].get('data')
+        # Return first value if locale is None and scope is None
+        if locale is None and scope is None:
+            return self.values[attribute][0].get('data')
+        
+        # Return None if locale and scope are not found
+        return None
     
 
     def set_value(self, attribute: str, locale: str | None = None, scope: str | None = None, data: str | None = None):
