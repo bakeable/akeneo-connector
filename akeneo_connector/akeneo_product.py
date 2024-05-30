@@ -1,7 +1,7 @@
 from typing import TypedDict, Optional
 
 from akeneo_connector.akeneo_connector import AkeneoConnector
-from akeneo_connector.akeneo_units import AkeneoUnitToSuffix
+from akeneo_connector.akeneo_units import AkeneoUnitToSuffix, format_value
 
 class Value(TypedDict):
      locale: Optional[str]
@@ -163,30 +163,8 @@ class AkeneoProduct:
         # Get value
         value = self.get_value(attribute, locale, scope)
 
-        if value is None:
-            return "N/A"
-
-        # Check if value is a list
-        if isinstance(value, list):
-            return ', '.join(value)
-        elif isinstance(value, dict):
-            if "amount" in value and "currency" in value:
-                return f"{value['currency']}{round(value['amount'], 2)}"
-            if "amount" in value and "unit" in value:
-                if value["unit"] in AkeneoUnitToSuffix.keys():
-                    return f"{round(value['amount'], 2)} {AkeneoUnitToSuffix[value['unit']]}"
-                else:
-                    return f"{round(value['amount'], 2)} {value['unit']}"
-            elif "amount" in value:
-                return round(value['amount'], 2)
-                
-        elif isinstance(value, str):
-            return value
-        
-        try:
-            return str(value)
-        except:
-            return "N/A"
+        # Return formatted value
+        return format_value(value, locale)
             
     
     def get_href(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str | None:
