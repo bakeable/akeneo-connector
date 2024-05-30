@@ -112,10 +112,12 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
     """
     Format the value of an attribute.
     """
+    if value is None:
+        return "N/A"
 
     if isinstance(value, str):
         return value
-    
+        
     if 'amount' in value and 'unit' in value:
         # Get suffix for unit
         suffix = AkeneoUnitToSuffixByLocale.get(locale, AkeneoUnitToSuffixDefault).get(value['unit'], value['unit'])
