@@ -149,7 +149,7 @@ class AkeneoConnector:
 
         return data
 
-    def get_media_file(self, image_href):
+    def get_media_file(self, media_url):
         """
         Gets the media file from Akeneo.
 
@@ -159,7 +159,7 @@ class AkeneoConnector:
         Returns:
             response: The response object containing the media file.
         """
-        response = req.get(image_href, headers=self.headers)
+        response = req.get(media_url, headers=self.headers)
         if response.status_code == 200:
             return response.content
         else:

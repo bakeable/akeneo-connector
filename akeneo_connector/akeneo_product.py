@@ -272,9 +272,9 @@ class AkeneoProduct:
         #  Update is same
         return self.update()
     
-    def get_image(self, image_attribute: str, locale: str | None = None, scope: str | None = None):
+    def get_media(self, media_attribute: str, locale: str | None = None, scope: str | None = None):
         """
-        Downloads the image for the specified attribute.
+        Downloads the media file for the specified attribute.
 
         Args:
             image_attribute (str): The name of the attribute containing the image.
@@ -282,9 +282,9 @@ class AkeneoProduct:
             scope (str): The scope of the value.
 
         Returns:
-            bytes: The content of the image, or None if not found
+            bytes: The content of the media file, or None if not found
         """
-        image_href = self.get_href(image_attribute, locale, scope)
-        if image_href:
-            return self.connector.get_media_file(image_href)
+        media_url = self.get_href(media_attribute, locale, scope)
+        if media_url:
+            return self.connector.get_media_file(media_url)
         return None
