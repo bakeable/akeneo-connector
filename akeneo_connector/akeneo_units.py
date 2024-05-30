@@ -1,3 +1,5 @@
+import locale
+
 AkeneoUnitToSuffixDefault = {
     'KILOGRAM': 'kg',
     'GRAM': 'g',
@@ -108,7 +110,7 @@ ConnectionWordByLocale = {
 }
 
 
-def format_value(value: str | dict, locale: str = "nl_NL") -> str:
+def format_value(value: str | dict, locale_name: str = "nl_NL") -> str:
     """
     Format the value of an attribute.
     """
@@ -121,7 +123,7 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
     if isinstance(value, dict):
         if 'amount' in value and 'unit' in value:
             # Get suffix for unit
-            suffix = AkeneoUnitToSuffixByLocale.get(locale, AkeneoUnitToSuffixDefault).get(value['unit'], value['unit'])
+            suffix = AkeneoUnitToSuffixByLocale.get(locale_name, AkeneoUnitToSuffixDefault).get(value['unit'], value['unit'])
 
             # Get rounding for unit
             rounding = AkeneoUnitRounding.get(value['unit'], 2)
@@ -133,9 +135,12 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
             amount = round(amount, rounding)
             if amount.is_integer():
                 amount = int(amount)
+                
+            # Format correctly
+            formatted_amount = format_number(amount, locale_name)
 
             # Get the unit translation
-            return f"{amount} {suffix}"
+            return f"{formatted_amount} {suffix}"
         
         if 'amount' in value and 'currency' in value:
             return f"{value['amount']} {value['currency']}"
@@ -147,11 +152,26 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
             return value[0]
         
         if len(value) == 2:
-            return f"{value[0]} {ConnectionWordByLocale.get(locale, 'and')} {value[1]}"
+            return f"{value[0]} {ConnectionWordByLocale.get(locale_name, 'and')} {value[1]}"
         
-        return f"{', '.join(value[:-1])} {ConnectionWordByLocale.get(locale, 'and')} {value[-1]}"
+        return f"{', '.join(value[:-1])} {ConnectionWordByLocale.get(locale_name, 'and')} {value[-1]}"
     
     try:
         return str(value)
     except:
         return "N/A"
+    
+
+def format_number(number: int | float, locale_name: str = "nl_NL") -> str:
+    try:
+        # Set the locale for all categories to the specified locale
+        locale.setlocale(locale.LC_ALL, locale_name)
+    except locale.Error as e:
+        print(f"Error setting locale to {locale_name}: {e}")
+        return str(number)
+    
+    # Format the number
+    if isinstance(number, int):
+        return locale.format_string("%d", number, grouping=True)
+    else:
+        return locale.format_string("%f", number, grouping=True)
