@@ -23,7 +23,7 @@ class AkeneoConnector:
     # Constants
     PRODUCT_URL = 'https://{origin}/api/rest/{version}/products/{identifier}'
     PRODUCTS_URL = 'https://{origin}/api/rest/{version}/products'
-
+    ATTRIBUTE_URL = 'https://{origin}/api/rest/{version}/attributes/{code}'
 
     def __init__(self, origin: str | None = None, username = None, password = None, auth_token = None, auth_url = None, version='v1'):
         """
@@ -165,3 +165,28 @@ class AkeneoConnector:
         else:
             print(f"Error: {response.status_code} - {response.text}")
             return None
+    
+    def get_attribute(self, attributecode: str):
+        """
+        Gets the attribute from Akeneo.
+
+        Args:
+            code (str): The code of the attribute.
+
+        Returns:
+            dict: The JSON response.
+        """
+        response = req.get(self.ATTRIBUTE_URL.format(origin=self.origin, version=self.version, code=attributecode), headers=self.headers)
+        
+        # Check if the request was successful
+        if response.status_code < 200 or response.status_code >= 300:
+            print(f"Request error: {response.status_code} - {response.text}")
+            return None
+        
+        # Try to parse the response as JSON
+        try:
+            data = response.json()
+        except:
+            data = response.text
+            
+        return data
