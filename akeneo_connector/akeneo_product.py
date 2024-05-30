@@ -288,3 +288,22 @@ class AkeneoProduct:
         if media_url:
             return self.connector.get_media_file(media_url)
         return None
+    
+    def get_label(self, attribute: str, locale: str | None = None):
+        """
+        Gets the label attribute from Akeneo.
+
+        Args:
+            attribute (str): The code of the attribute.
+            locale (str): The locale of the value.
+
+        Returns:
+            str: The label of the attribute.
+        """
+        # Get the attribute
+        attribute = self.connector.get_attribute(attribute)
+        
+        # Get the label
+        label = attribute.get('labels', {}).get(locale, None)
+        
+        return label
