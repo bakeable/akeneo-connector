@@ -235,7 +235,7 @@ class AkeneoProduct:
                 'data': data
             })
 
-    def get(self, identifier: str | None = None):
+    def get(self, identifier: str | None = None, with_attribute_options: bool = False):
         """
         Retrieves the product data.
 
@@ -255,6 +255,14 @@ class AkeneoProduct:
         
         # Build the URL
         url = self.connector.product_url.format(identifier=identifier)
+
+        # Add query parameters
+        query = ""
+        if with_attribute_options:
+            query += "with_attribute_options=true&"
+
+        if query:
+            url += f"?{query}"
 
         # Get the product
         data = self.connector.get(url)
