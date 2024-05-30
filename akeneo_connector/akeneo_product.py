@@ -1,6 +1,7 @@
 from typing import TypedDict, Optional
 
 from akeneo_connector.akeneo_connector import AkeneoConnector
+from akeneo_connector.akeneo_units import AkeneoUnitToSuffix
 
 class Value(TypedDict):
      locale: Optional[str]
@@ -146,6 +147,47 @@ class AkeneoProduct:
         
         # Return None if locale and scope are not found
         return None
+    
+    def get_formatted_value(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str:
+        """
+        Gets the formatted value for the given attribute.
+
+        Args:
+            attribute (str): The attribute to get the value for.
+            locale (str): The locale of the value.
+            scope (str): The scope of the value.
+
+        Returns:
+            str: The value of the attribute. "N/A" if not found.
+        """
+        # Get value
+        value = self.get_value(attribute, locale, scope)
+
+        if value is None:
+            return "N/A"
+
+        # Check if value is a list
+        if isinstance(value, list):
+            return ', '.join(value)
+        elif isinstance(value, dict):
+            if "amount" in value and "currency" in value:
+                return f"{value['amount']} {value['currency']}"
+            if "amount" in value and "unit" in value:
+                if value["unit"] in AkeneoUnitToSuffix.keys():
+                    return f"{value['amount']}{AkeneoUnitToSuffix[value['unit']]}"
+                else:
+                    return f"{value['amount']} {value['unit']}"
+            elif "amount" in value:
+                return value['amount']
+                
+        elif isinstance(value, str):
+            return value
+        
+        try:
+            return str(value)
+        except:
+            return "N/A"
+            
     
     def get_href(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str | None:
         """
