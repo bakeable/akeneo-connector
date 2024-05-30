@@ -129,7 +129,7 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
         # Round value
         amount = round(amount, rounding)
         if amount.is_integer():
-            amount = int(value['amount'])
+            amount = int(amount)
 
         # Get the unit translation
         return f"{amount} {suffix}"
