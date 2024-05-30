@@ -116,9 +116,16 @@ def format_value(value: str | dict, locale_name: str = "nl_NL") -> str:
     """
     if value is None:
         return "N/A"
+    
+    if isinstance(value, str) and value.replace('.', '', 1).isdigit():
+        return format_number(float(value), locale_name)
+    
+    if isinstance(value, int) or isinstance(value, float):
+        return format_number(value, locale_name)
 
     if isinstance(value, str):
         return value
+    
     
     if isinstance(value, dict):
         if 'amount' in value and 'unit' in value:
