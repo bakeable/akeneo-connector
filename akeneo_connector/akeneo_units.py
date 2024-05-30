@@ -111,7 +111,7 @@ ConnectionWordByLocale = {
 }
 
 
-def format_value(value: str | dict, locale_name: str | None = None) -> str:
+def format_value(value: str | dict, locale_name: str | None = None, linked_data: dict = {}) -> str:
     """
     Format the value of an attribute.
     """
@@ -128,9 +128,13 @@ def format_value(value: str | dict, locale_name: str | None = None) -> str:
         return format_number(value, locale_name)
 
     if isinstance(value, str):
+        if "code" in linked_data and linked_data["code"] == value:
+            # Get the label from the linked data
+            return linked_data.get("labels", {}).get(locale_name, value)
+
         return value
     
-    
+
     if isinstance(value, dict):
         if 'amount' in value and 'unit' in value:
             # Get suffix for unit
@@ -157,18 +161,27 @@ def format_value(value: str | dict, locale_name: str | None = None) -> str:
             return f"{value['amount']} {value['currency']}"
     
     if isinstance(value, list):
+        # Get labels from linked data
+        labels = []
+        for item in value:
+            if item in linked_data:
+                label = linked_data.get(item, {}).get("labels", {}).get(locale_name, item)
+                labels.append(label)
+            else:
+                labels.append(item)
+
         # Add comma to all value up until the final one, 
         # then the connection word and the final value
-        if len(value) == 1:
-            return value[0]
+        if len(labels) == 1:
+            return labels[0]
         
-        if len(value) == 2:
-            return f"{value[0]} {ConnectionWordByLocale.get(locale_name, 'and')} {value[1]}"
+        if len(labels) == 2:
+            return f"{labels[0]} {ConnectionWordByLocale.get(locale_name, 'and')} {labels[1]}"
         
-        return f"{', '.join(value[:-1])} {ConnectionWordByLocale.get(locale_name, 'and')} {value[-1]}"
+        return f"{', '.join(labels[:-1])} {ConnectionWordByLocale.get(locale_name, 'and')} {labels[-1]}"
     
     try:
-        return str(value)
+        return str(labels)
     except:
         return "N/A"
     

@@ -148,6 +148,34 @@ class AkeneoProduct:
         # Return None if locale and scope are not found
         return None
     
+    def get_linked_data(self, attribute: str, locale: str | None = None, scope: str | None = None) -> dict | None:
+        """
+        Gets the linked data for the given attribute.
+
+        Args:
+            attribute (str): The attribute to get the linked data for.
+            locale (str): The locale of the value.
+            scope (str): The scope of the value.
+
+        Returns:
+            dict: The linked data of the attribute. None if not found.
+        """
+        # Failsafe
+        if attribute not in self.values:
+            return None
+
+        # Try to find the value with locale and scope
+        for value in self.values[attribute]:
+            if value.get('locale') == locale and value.get('scope') == scope:
+                return value.get('linked_data', None)
+
+        # Return first value if locale is None and scope is None
+        if locale is None and scope is None:
+            return self.values[attribute][0].get('linked_data', None)
+        
+        # Return None if locale and scope are not found
+        return None
+    
     def get_formatted_value(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str:
         """
         Gets the formatted value for the given attribute.
@@ -163,10 +191,12 @@ class AkeneoProduct:
         # Get value
         value = self.get_value(attribute, locale, scope)
 
+        # Get linked data
+        linked_data = self.get_linked_data(attribute, locale, scope)
+
         # Return formatted value
-        return format_value(value, locale)
+        return format_value(value, locale, linked_data)
             
-    
     def get_href(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str | None:
         """
         Gets the link for a downloadable attribute.
