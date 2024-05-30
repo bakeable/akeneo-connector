@@ -1,5 +1,6 @@
 import locale
 
+DefaultLocale = "nl_NL"
 AkeneoUnitToSuffixDefault = {
     'KILOGRAM': 'kg',
     'GRAM': 'g',
@@ -110,7 +111,7 @@ ConnectionWordByLocale = {
 }
 
 
-def format_value(value: str | dict, locale_name: str = "nl_NL") -> str:
+def format_value(value: str | dict, locale_name: str | None = None) -> str:
     """
     Format the value of an attribute.
     """
@@ -169,7 +170,10 @@ def format_value(value: str | dict, locale_name: str = "nl_NL") -> str:
         return "N/A"
     
 
-def format_number(number: int | float, locale_name: str = "nl_NL") -> str:
+def format_number(number: int | float, locale_name: str | None = None) -> str:
+    if locale_name is None:
+        locale_name = DefaultLocale
+
     try:
         # Set the locale for all categories to the specified locale
         locale.setlocale(locale.LC_ALL, locale_name)
@@ -179,6 +183,11 @@ def format_number(number: int | float, locale_name: str = "nl_NL") -> str:
     
     # Format the number
     if isinstance(number, int):
-        return locale.format_string("%d", number, grouping=True)
+        formatted_number = locale.format_string("%d", number, grouping=True)
     else:
-        return locale.format_string("%f", number, grouping=True)
+        formatted_number = locale.format_string("%f", number, grouping=True)
+
+    # Remove trailing zeros and dots
+    formatted_number = formatted_number.rstrip('0').rstrip('.')
+
+    return formatted_number
