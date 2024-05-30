@@ -171,14 +171,14 @@ class AkeneoProduct:
             return ', '.join(value)
         elif isinstance(value, dict):
             if "amount" in value and "currency" in value:
-                return f"{value['amount']} {value['currency']}"
+                return f"{value['currency']}{round(value['amount'], 2)}"
             if "amount" in value and "unit" in value:
                 if value["unit"] in AkeneoUnitToSuffix.keys():
-                    return f"{value['amount']}{AkeneoUnitToSuffix[value['unit']]}"
+                    return f"{round(value['amount'], 2)} {AkeneoUnitToSuffix[value['unit']]}"
                 else:
-                    return f"{value['amount']} {value['unit']}"
+                    return f"{round(value['amount'], 2)} {value['unit']}"
             elif "amount" in value:
-                return value['amount']
+                return round(value['amount'], 2)
                 
         elif isinstance(value, str):
             return value
