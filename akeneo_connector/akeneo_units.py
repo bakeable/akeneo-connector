@@ -137,6 +137,12 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
     if isinstance(value, list):
         # Add comma to all value up until the final one, 
         # then the connection word and the final value
+        if len(value) == 1:
+            return value[0]
+        
+        if len(value) == 2:
+            return f"{value[0]} {ConnectionWordByLocale.get(locale, 'and')} {value[1]}"
+        
         return f"{', '.join(value[:-1])} {ConnectionWordByLocale.get(locale, 'and')} {value[-1]}"
     
     try:
