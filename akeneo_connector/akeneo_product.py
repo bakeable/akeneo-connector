@@ -120,7 +120,7 @@ class AkeneoProduct:
         """
         return self.values.get(attribute, [])
     
-    def get_value(self, attribute: str, locale: str | None = None, scope: str | None = None) -> any:
+    def get_value(self, attribute: str, locale: str | None = None, scope: str | None = None, with_fallback = False) -> any:
         """
         Gets the value for the given attribute.
 
@@ -142,13 +142,13 @@ class AkeneoProduct:
                 return value.get('data')
 
         # Return first value if locale is None and scope is None
-        if locale is None and scope is None:
+        if locale is None and scope is None or with_fallback:
             return self.values[attribute][0].get('data')
-        
+
         # Return None if locale and scope are not found
         return None
     
-    def get_linked_data(self, attribute: str, locale: str | None = None, scope: str | None = None) -> dict | None:
+    def get_linked_data(self, attribute: str, locale: str | None = None, scope: str | None = None, with_fallback = False) -> dict | None:
         """
         Gets the linked data for the given attribute.
 
@@ -170,7 +170,7 @@ class AkeneoProduct:
                 return value.get('linked_data', None)
 
         # Return first value if locale is None and scope is None
-        if locale is None and scope is None:
+        if locale is None and scope is None or with_fallback:
             return self.values[attribute][0].get('linked_data', None)
         
         # Return None if locale and scope are not found
@@ -189,10 +189,10 @@ class AkeneoProduct:
             str: The value of the attribute. "N/A" if not found.
         """
         # Get value
-        value = self.get_value(attribute, locale, scope)
+        value = self.get_value(attribute, locale, scope, with_fallback=True)
 
         # Get linked data
-        linked_data = self.get_linked_data(attribute, locale, scope)
+        linked_data = self.get_linked_data(attribute, locale, scope, with_fallback=True)
 
         # Return formatted value
         return format_value(value, locale, linked_data)

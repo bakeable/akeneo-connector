@@ -202,7 +202,10 @@ def format_number(number: int | float, locale_name: str | None = None) -> str:
     
     # Format the number
     if isinstance(number, int):
-        formatted_number = locale.format_string("%d", number, grouping=True)
+        if number > 1000000000: # Prevent barcodes from being formatted wrong
+            formatted_number = str(number)
+        else:
+            formatted_number = locale.format_string("%d", number, grouping=True)
     else:
         formatted_number = locale.format_string("%f", number, grouping=True)
 
