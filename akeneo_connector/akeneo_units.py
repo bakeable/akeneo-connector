@@ -122,9 +122,12 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
 
         # Get rounding for unit
         rounding = AkeneoUnitRounding.get(value['unit'], 2)
+        
+        # Parse str amount to float
+        amount = float(value['amount'])
 
         # Round value
-        amount = round(value['amount'], rounding)
+        amount = round(amount, rounding)
         if amount.is_integer():
             amount = int(value['amount'])
 
