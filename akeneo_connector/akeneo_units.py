@@ -1,33 +1,32 @@
 import locale
 
 DefaultLocale = "nl_NL"
-AkeneoUnitToSuffixDefault = {
-    'KILOGRAM': 'kg',
-    'GRAM': 'g',
-    'MILLIGRAM': 'mg',
-    'MICROGRAM': 'µg',
-    'TON': 't',
-    'POUND': 'lb',
-    'OUNCE': 'oz',
-    'MILLIMETER': 'mm',
-    'CENTIMETER': 'cm',
-    'METER': 'm',
-    'KILOMETER': 'km',
-    'INCH': 'in',
-    'FOOT': 'ft',
-    'YARD': 'yd',
-    'PIECE': 'pc',
-    'DOZEN': 'dz',
-    'MILLILITER': 'ml',
-    'CENTILITER': 'cl',
-    'LITER': 'l',
-    'GALLON': 'gal',
-    'BOX': 'box',
-    'PACK': 'pack',
-    'BOTTLE': 'bottle',
-}
 AkeneoUnitToSuffixByLocale = {
-    "en_US": AkeneoUnitToSuffixDefault,
+    "en_US": {
+        'KILOGRAM': 'kg',
+        'GRAM': 'g',
+        'MILLIGRAM': 'mg',
+        'MICROGRAM': 'µg',
+        'TON': 't',
+        'POUND': 'lb',
+        'OUNCE': 'oz',
+        'MILLIMETER': 'mm',
+        'CENTIMETER': 'cm',
+        'METER': 'm',
+        'KILOMETER': 'km',
+        'INCH': 'in',
+        'FOOT': 'ft',
+        'YARD': 'yd',
+        'PIECE': 'pc',
+        'DOZEN': 'dz',
+        'MILLILITER': 'ml',
+        'CENTILITER': 'cl',
+        'LITER': 'l',
+        'GALLON': 'gal',
+        'BOX': 'box',
+        'PACK': 'pack',
+        'BOTTLE': 'bottle',
+    },
     "nl_NL": {
         'KILOGRAM': 'kg',
         'GRAM': 'g',
@@ -79,6 +78,7 @@ AkeneoUnitToSuffixByLocale = {
         'BOTTLE': 'Flasche',
     },
 }
+AkeneoUnitToSuffixDefault = AkeneoUnitToSuffixByLocale[DefaultLocale]
 AkeneoUnitRounding = {
     'KILOGRAM': 2,
     'GRAM': 0,
@@ -115,6 +115,9 @@ def format_value(value: str | dict, locale_name: str | None = None) -> str:
     """
     Format the value of an attribute.
     """
+    if locale_name is None:
+        locale_name = DefaultLocale
+
     if value is None:
         return "N/A"
     
