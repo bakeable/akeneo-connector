@@ -186,7 +186,7 @@ class AkeneoProduct:
             scope (str): The scope of the value.
 
         Returns:
-            str: The value of the attribute. "N/A" if not found.
+            str: The value of the attribute. "N/A" if not found. Will always return a value.
         """
         # Get value
         value = self.get_value(attribute, locale, scope, with_fallback=True)
