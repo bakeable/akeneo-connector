@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="akeneo_connector",
-    version="0.1.15",
+    version="0.1.16",
     packages=find_packages(),
     install_requires=[
         'requests >= 2.31.0',
