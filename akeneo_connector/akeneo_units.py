@@ -164,7 +164,7 @@ def format_value(value: str | dict, locale_name: str | None = None, linked_data:
             return f"{value['amount']} {value['currency']}"
     
     if isinstance(value, list):
-        # Get labels from linked data
+        # Get labels from linked data, otherwise use the value
         labels = []
         for item in value:
             if item in linked_data:
