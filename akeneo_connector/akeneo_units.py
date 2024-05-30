@@ -111,12 +111,15 @@ ConnectionWordByLocale = {
 }
 
 
-def format_value(value: str | dict, locale_name: str | None = None, linked_data: dict = {}) -> str:
+def format_value(value: str | dict, locale_name: str | None = None, linked_data: dict | None = {}) -> str:
     """
     Format the value of an attribute.
     """
     if locale_name is None:
         locale_name = DefaultLocale
+
+    if linked_data is None:
+        linked_data = {}
 
     if value is None:
         return "N/A"
