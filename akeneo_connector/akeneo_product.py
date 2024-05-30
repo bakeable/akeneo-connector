@@ -147,6 +147,33 @@ class AkeneoProduct:
         # Return None if locale and scope are not found
         return None
     
+    def get_href(self, attribute: str, locale: str | None = None, scope: str | None = None) -> str | None:
+        """
+        Gets the link for a downloadable attribute.
+
+        Args:
+            attribute (str): The attribute to get the link for.
+            locale (str): The locale of the value.
+            scope (str): The scope of the value.
+
+        Returns:
+            dict: The link of the attribute. None if not found.
+        """
+        # Failsafe
+        if attribute not in self.values:
+            return None
+
+        # Try to find the value with locale and scope
+        for value in self.values[attribute]:
+            if value.get('locale') == locale and value.get('scope') == scope:
+                return value.get('_links').get('download').get('href')
+
+        # Return first value if locale is None and scope is None
+        if locale is None and scope is None:
+            return self.values[attribute][0].get('_links').get('download').get('href')
+        
+        # Return None if locale and scope are not found
+        return None
 
     def set_value(self, attribute: str, locale: str | None = None, scope: str | None = None, data: str | None = None):
         """
@@ -257,8 +284,7 @@ class AkeneoProduct:
         Returns:
             bytes: The content of the image, or None if not found
         """
-        image_data = self.get_value(image_attribute, locale, scope)
-        if image_data:
-            download_link = image_data[0]['_links']['download']['href']
-            return self.connector.get_media_file(download_link)
+        image_href = self.get_href(image_attribute, locale, scope)
+        if image_href:
+            return self.connector.get_media_file(image_href)
         return None
