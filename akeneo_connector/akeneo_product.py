@@ -1,7 +1,7 @@
 from typing import TypedDict, Optional
 
 from akeneo_connector.akeneo_connector import AkeneoConnector
-from akeneo_connector.akeneo_units import AkeneoUnitToSuffix, format_value
+from akeneo_connector.akeneo_units import format_value
 
 class Value(TypedDict):
      locale: Optional[str]
