@@ -117,27 +117,28 @@ def format_value(value: str | dict, locale: str = "nl_NL") -> str:
 
     if isinstance(value, str):
         return value
-        
-    if 'amount' in value and 'unit' in value:
-        # Get suffix for unit
-        suffix = AkeneoUnitToSuffixByLocale.get(locale, AkeneoUnitToSuffixDefault).get(value['unit'], value['unit'])
-
-        # Get rounding for unit
-        rounding = AkeneoUnitRounding.get(value['unit'], 2)
-        
-        # Parse str amount to float
-        amount = float(value['amount'])
-
-        # Round value
-        amount = round(amount, rounding)
-        if amount.is_integer():
-            amount = int(amount)
-
-        # Get the unit translation
-        return f"{amount} {suffix}"
     
-    if 'amount' in value and 'currency' in value:
-        return f"{value['amount']} {value['currency']}"
+    if isinstance(value, dict):
+        if 'amount' in value and 'unit' in value:
+            # Get suffix for unit
+            suffix = AkeneoUnitToSuffixByLocale.get(locale, AkeneoUnitToSuffixDefault).get(value['unit'], value['unit'])
+
+            # Get rounding for unit
+            rounding = AkeneoUnitRounding.get(value['unit'], 2)
+            
+            # Parse str amount to float
+            amount = float(value['amount'])
+
+            # Round value
+            amount = round(amount, rounding)
+            if amount.is_integer():
+                amount = int(amount)
+
+            # Get the unit translation
+            return f"{amount} {suffix}"
+        
+        if 'amount' in value and 'currency' in value:
+            return f"{value['amount']} {value['currency']}"
     
     if isinstance(value, list):
         # Add comma to all value up until the final one, 
