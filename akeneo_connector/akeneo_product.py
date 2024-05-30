@@ -166,11 +166,11 @@ class AkeneoProduct:
         # Try to find the value with locale and scope
         for value in self.values[attribute]:
             if value.get('locale') == locale and value.get('scope') == scope:
-                return value.get('_links').get('download').get('href')
+                return value.get('_links', {}).get('download', {}).get('href', None)
 
         # Return first value if locale is None and scope is None
         if locale is None and scope is None:
-            return self.values[attribute][0].get('_links').get('download').get('href')
+            return self.values[attribute][0].get('_links', {}).get('download', {}).get('href', None)
         
         # Return None if locale and scope are not found
         return None
