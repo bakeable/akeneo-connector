@@ -128,6 +128,26 @@ class AkeneoProduct:
 
         return locales
     
+
+    def get_locales_by_scopes(self) -> dict[str, list[str]]:
+        """
+        Gets the locales for each scope.
+
+        Returns:
+            dict: The locales for each scope.
+        """
+        locales_by_scopes = {}
+        for attribute in self.values:
+            for value in self.values[attribute]:
+                locale = value.get('locale')
+                scope = value.get('scope')
+                if scope not in locales_by_scopes:
+                    locales_by_scopes[scope] = []
+                if locale not in locales_by_scopes[scope]:
+                    locales_by_scopes[scope].append(locale)
+        
+        return locales_by_scopes
+    
     def get_values(self, attribute: str) -> list[Value]:
         """
         Gets the values for the given attribute.
