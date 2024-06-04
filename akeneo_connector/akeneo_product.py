@@ -74,7 +74,7 @@ class AkeneoProduct:
             'values': self.updated_values,
         }
     
-    def get_scopes(self, attribute: str) -> list[str]:
+    def get_scopes(self, attribute: str | None = None) -> list[str]:
         """
         Gets the scopes for the given attribute.
 
@@ -85,13 +85,23 @@ class AkeneoProduct:
             list: The scopes of the attribute.
         """
         scopes = []
-        for value in self.values.get(attribute, []):
-            scope = value.get('scope')
-            if scope not in scopes:
-                scopes.append(scope)
+
+        if scope is not None:
+            for value in self.values.get(attribute, []):
+                scope = value.get('scope')
+                if scope not in scopes:
+                    scopes.append(scope)
+
+        if scope is None:
+            for attribute in self.values:
+                for value in self.values[attribute]:
+                    scope = value.get('scope')
+                    if scope not in scopes:
+                        scopes.append(scope)
+
         return scopes
     
-    def get_locales(self, attribute: str) -> list[str]:
+    def get_locales(self, attribute: str | None = None) -> list[str]:
         """
         Gets the locales for the given attribute.
 
@@ -102,10 +112,19 @@ class AkeneoProduct:
             list: The locales of the attribute.
         """
         locales = []
-        for value in self.values.get(attribute, []):
-            locale = value.get('locale')
-            if locale not in locales:
-                locales.append(locale)
+        if attribute is not None:
+            for value in self.values.get(attribute, []):
+                locale = value.get('locale')
+                if locale not in locales:
+                    locales.append(locale)
+
+        if attribute is None:
+            for attribute in self.values:
+                for value in self.values[attribute]:
+                    locale = value.get('locale')
+                    if locale not in locales:
+                        locales.append(locale)
+
         return locales
     
     def get_values(self, attribute: str) -> list[Value]:
