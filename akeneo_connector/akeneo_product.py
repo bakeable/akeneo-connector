@@ -346,3 +346,28 @@ class AkeneoProduct:
         if media_url:
             return self.connector.get_media_file(media_url)
         return None
+    
+    def set_media(self, attribute: str, locale: str | None = None, scope: str | None = None, file: str | None = None):
+        """
+        Sets a media file for the given attribute.
+        
+        Args:
+            attribute (str): The attribute to set the media file for.
+            locale (str): The locale of the value.
+            scope (str): The scope of the value.
+            data (str): The data of the value.
+            
+        Returns:
+            bool: JSON response if successful, None otherwise.
+        """
+        
+        url = self.connector.upload_media(attribute, locale, scope)
+        if url is None:
+            return None
+        
+        return self.connector.upload_media(url, {
+            'identifier': self.identifier,
+            'attribute': attribute,
+            'locale': locale,
+            'scope': scope  
+        }, file)
