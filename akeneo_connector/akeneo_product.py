@@ -86,13 +86,13 @@ class AkeneoProduct:
         """
         scopes = []
 
-        if scope is not None:
+        if attribute is not None:
             for value in self.values.get(attribute, []):
                 scope = value.get('scope')
                 if scope not in scopes:
                     scopes.append(scope)
 
-        if scope is None:
+        if attribute is None:
             for attribute in self.values:
                 for value in self.values[attribute]:
                     scope = value.get('scope')
