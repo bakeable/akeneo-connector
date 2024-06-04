@@ -2,6 +2,7 @@ from typing import TypedDict, Optional
 
 from akeneo_connector.akeneo_connector import AkeneoConnector
 from akeneo_connector.akeneo_units import format_value
+from akeneo_connector.decorators import validate_parameters
 
 class Value(TypedDict):
      locale: Optional[str]
@@ -366,12 +367,13 @@ class AkeneoProduct:
             return self.connector.get_media_file(media_url)
         return None
     
+    @validate_parameters
     def set_media(
             self, 
             attribute: str,
             file_path: str, 
-            locale: str | None = None, 
-            scope: str | None = None
+            locale: str, 
+            scope: str
         ):
         """
         Sets a media file for the given attribute.
