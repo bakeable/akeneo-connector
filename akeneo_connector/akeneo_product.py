@@ -160,6 +160,16 @@ class AkeneoProduct:
         for value in self.values[attribute]:
             if value.get('locale') == locale and value.get('scope') == scope:
                 return value.get('data')
+        
+        # Fallback on locale first, then on scope
+        if with_fallback:
+            for value in self.values[attribute]:
+                if value.get('locale') is locale:
+                    return value.get('data')
+            
+            for value in self.values[attribute]:
+                if value.get('scope') is scope:
+                    return value.get('data')
 
         # Return first value if locale is None and scope is None
         if locale is None and scope is None or with_fallback:
