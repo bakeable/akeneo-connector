@@ -347,15 +347,25 @@ class AkeneoProduct:
             return self.connector.get_media_file(media_url)
         return None
     
-    def set_media(self, attribute: str, locale: str | None = None, scope: str | None = None, file: str | None = None):
+    def set_media(
+            self, 
+            attribute: str, 
+            filename: str, 
+            file_type: str, 
+            base64_file: str, 
+            locale: str | None = None, 
+            scope: str | None = None
+        ):
         """
         Sets a media file for the given attribute.
         
         Args:
             attribute (str): The attribute to set the media file for.
+            filename (str): The filename of the media file.
+            file_type (str): The type of the media file.
+            base64_file (str): The base64 encoded media file.
             locale (str): The locale of the value.
             scope (str): The scope of the value.
-            data (str): The data of the value.
             
         Returns:
             bool: JSON response if successful, None otherwise.
@@ -366,4 +376,4 @@ class AkeneoProduct:
             'attribute': attribute,
             'locale': locale,
             'scope': scope  
-        }, file)
+        }, filename, file_type, base64_file)
