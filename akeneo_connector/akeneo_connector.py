@@ -202,12 +202,6 @@ class AkeneoConnector:
             product_dict (dict): The product info to send in the request.
             media_file (str): The base64 encoded the media file.
         """
-        # Convert to JSON-string
-        data_str = json.dumps({
-            'product': product_dict,
-            'file': media_file	
-        })
-
         # Set the payload to the JSON-string
         print(f"POST {self.products_media_url}")
         headers = {
@@ -215,7 +209,10 @@ class AkeneoConnector:
             'Content-type': 'multipart/form-data'
         }
         
-        response = req.post(self.products_media_url, headers=headers, data=data_str)
+        response = req.post(self.products_media_url, headers=headers, data={
+            "product": json.dumps(product_dict),
+            "file": media_file
+        })
 
         # Check if the request was successful
         if response.status_code < 200 or response.status_code >= 300:
