@@ -207,13 +207,13 @@ def format_number(number: int | float, locale_name: str | None = None) -> str:
         formatted_number = locale.format_string("%d", number, grouping=True)
 
         # Remove trailing zeros, commas and dots
-        formatted_number = formatted_number.rstrip('0').rstrip('.').rstrip(',')
+        formatted_number = formatted_number.rstrip('.').rstrip(',')
 
     else:
         formatted_number = locale.format_string("%f", number, grouping=True)
 
         # Remove trailing commas and dots
-        formatted_number = formatted_number.rstrip('.').rstrip(',')
+        formatted_number = formatted_number.rstrip('0').rstrip('.').rstrip(',')
 
 
     return formatted_number
