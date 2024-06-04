@@ -361,11 +361,7 @@ class AkeneoProduct:
             bool: JSON response if successful, None otherwise.
         """
         
-        url = self.connector.upload_media(attribute, locale, scope)
-        if url is None:
-            return None
-        
-        return self.connector.upload_media(url, {
+        return self.connector.upload_media({
             'identifier': self.identifier,
             'attribute': attribute,
             'locale': locale,

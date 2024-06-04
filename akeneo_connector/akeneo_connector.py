@@ -194,12 +194,13 @@ class AkeneoConnector:
             
         return data
 
-    def upload_media(self, url: str, product_dict: dict, media_file: str):
+    def upload_media(self, product_dict: dict, media_file: str):
         """
         Uploads media to Akeneo.
 
         Args:
-            payload (dict): The payload to send in the request.
+            product_dict (dict): The product info to send in the request.
+            media_file (str): The base64 encoded the media file.
         """
         # Convert to JSON-string
         data_str = json.dumps({
@@ -208,13 +209,13 @@ class AkeneoConnector:
         })
 
         # Set the payload to the JSON-string
-        print(f"POST {url}")
+        print(f"POST {self.products_media_url}")
         headers = {
             'Authorization': 'Bearer ' + self.access_token,
             'Content-type': 'multipart/form-data'
         }
         
-        response = req.post(url, headers=headers, data=data_str)
+        response = req.post(self.products_media_url, headers=headers, data=data_str)
 
         # Check if the request was successful
         if response.status_code < 200 or response.status_code >= 300:
