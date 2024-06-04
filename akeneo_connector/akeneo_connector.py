@@ -24,6 +24,7 @@ class AkeneoConnector:
     PRODUCT_URL = 'https://{origin}/api/rest/{version}/products/{identifier}'
     PRODUCTS_URL = 'https://{origin}/api/rest/{version}/products'
     ATTRIBUTE_URL = 'https://{origin}/api/rest/{version}/attributes/{code}'
+    PRODUCTS_MEDIA_URL = 'https://{origin}/api/rest/{version}/media-files'
 
     def __init__(self, origin: str | None = None, username = None, password = None, auth_token = None, auth_url = None, version='v1'):
         """
@@ -54,6 +55,8 @@ class AkeneoConnector:
         self.version = version
         self.product_url = self.PRODUCT_URL.format(origin=self.origin, version=self.version, identifier='{identifier}')
         self.products_url = self.PRODUCTS_URL.format(origin=self.origin, version=self.version)
+        self.products_media_url = self.PRODUCTS_MEDIA_URL.format(origin=self.origin, version=self.version)
+        
 
     def get_access_token(self):
         """
@@ -189,4 +192,39 @@ class AkeneoConnector:
         except:
             data = response.text
             
+        return data
+
+    def upload_media(self, url: str, product_dict: dict, media_file: str):
+        """
+        Uploads media to Akeneo.
+
+        Args:
+            payload (dict): The payload to send in the request.
+        """
+        # Convert to JSON-string
+        data_str = json.dumps({
+            'product': product_dict,
+            'file': media_file	
+        })
+
+        # Set the payload to the JSON-string
+        print(f"POST {url}")
+        headers = {
+            'Authorization': 'Bearer ' + self.access_token,
+            'Content-type': 'multipart/form-data'
+        }
+        
+        response = req.post(url, headers=headers, data=data_str)
+
+        # Check if the request was successful
+        if response.status_code < 200 or response.status_code >= 300:
+            print(f"Request error: {response.status_code} - {response.text}")
+            return None
+        
+        # Try to parse the response as JSON
+        try:
+            data = response.json()
+        except:
+            data = response.text
+
         return data
