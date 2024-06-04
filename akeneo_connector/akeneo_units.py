@@ -203,6 +203,10 @@ def format_number(number: int | float, locale_name: str | None = None) -> str:
     # Format the number
     if number > 100000000: # Prevent barcodes from being formatted wrong
         formatted_number = str(number)
+
+        # Remove trailing commas and dots
+        formatted_number = formatted_number.rstrip('0').rstrip('.').rstrip(',')
+        
     elif isinstance(number, int):
         formatted_number = locale.format_string("%d", number, grouping=True)
 
