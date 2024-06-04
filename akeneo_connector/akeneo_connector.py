@@ -194,27 +194,34 @@ class AkeneoConnector:
             data = response.text
             
         return data
-
-    def upload_media(self, product_dict: dict, filename: str, file_type: str, base64_file: str):
+    def upload_media(self, product_dict: dict, file_path: str):
         """
         Uploads media to Akeneo.
 
         Args:
             product_dict (dict): The product info to send in the request.
-            media_file (str): The base64 encoded the media file.
+            file_path (str): The path to the local media file.
         """
+
+        # Infer filename and file type from path
+        binary = open(file_path, 'rb').read()
+        filename = os.path.basename(file_path)
+        file_type = 'image/jpeg' if filename.endswith('.jpg') else 'application/pdf'
 
         # Create fields
         fields = {
-            "product": product_dict,
-            "file": (filename, base64_file, file_type)
+            "product": json.dumps(product_dict),
+            "file": (filename, binary, file_type)
         }
 
         # Encode body and header
-        encoded_body, headers = encode_multipart_formdata(fields, None)
+        encoded_body, content_type = encode_multipart_formdata(fields)
 
         # Add authorization
-        headers['Authorization'] = 'Bearer ' + self.access_token
+        headers = {
+            'Content-Type': content_type,
+            'Authorization': 'Bearer ' + self.access_token,
+        }
 
         # Send the request to the Akeneo API
         print(f"POST {self.products_media_url}")

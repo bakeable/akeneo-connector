@@ -349,10 +349,8 @@ class AkeneoProduct:
     
     def set_media(
             self, 
-            attribute: str, 
-            filename: str, 
-            file_type: str, 
-            base64_file: str, 
+            attribute: str,
+            file_path: str, 
             locale: str | None = None, 
             scope: str | None = None
         ):
@@ -376,4 +374,4 @@ class AkeneoProduct:
             'attribute': attribute,
             'locale': locale,
             'scope': scope  
-        }, filename, file_type, base64_file)
+        }, file_path=file_path)
