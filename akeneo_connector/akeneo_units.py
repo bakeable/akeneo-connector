@@ -205,10 +205,15 @@ def format_number(number: int | float, locale_name: str | None = None) -> str:
         formatted_number = str(number)
     elif isinstance(number, int):
         formatted_number = locale.format_string("%d", number, grouping=True)
+
+        # Remove trailing zeros, commas and dots
+        formatted_number = formatted_number.rstrip('0').rstrip('.').rstrip(',')
+
     else:
         formatted_number = locale.format_string("%f", number, grouping=True)
 
-    # Remove trailing zeros, commas and dots
-    formatted_number = formatted_number.rstrip('0').rstrip('.').rstrip(',')
+        # Remove trailing commas and dots
+        formatted_number = formatted_number.rstrip('.').rstrip(',')
+
 
     return formatted_number
