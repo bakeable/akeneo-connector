@@ -288,7 +288,12 @@ class AkeneoProduct:
         Returns:
             None
         """
-        # Failsafes
+        # Ensure self.values is properly initialized
+        if self.values is None:
+            self.values = {}
+            self.updated_values = {}
+
+        # Further processing
         if data is None:
             return
         
@@ -314,6 +319,7 @@ class AkeneoProduct:
                 'scope': scope,
                 'data': data
             })
+
 
     def get(self, identifier: str | None = None, with_attribute_options: bool = False):
         """
@@ -365,7 +371,7 @@ class AkeneoProduct:
             bool: JSON response if successful, None otherwise.
         """
         # Build the URL
-        url = self.connector.product_url.format(identifier=self.identifier)
+        url = self.connector.products_url
 
         # Update the product
         return self.connector.update(url, self.payload())
