@@ -357,7 +357,7 @@ class AkeneoProduct:
         
         return None
 
-    def update(self):
+    def update(self, is_new = False):
         """
         Updates the product.
 
@@ -368,7 +368,7 @@ class AkeneoProduct:
         url = self.connector.product_url.format(identifier=self.identifier)
 
         # Update the product
-        return self.connector.update(url, self.payload())
+        return self.connector.update(url, self.payload(), is_new=is_new)
 
     def create(self):
         """
@@ -378,7 +378,7 @@ class AkeneoProduct:
             bool: JSON response if successful, None otherwise.
         """
         #  Update is same
-        return self.update()
+        return self.update(is_new=True)
     
     def get_media(self, media_attribute: str, locale: str | None = None, scope: str | None = None):
         """

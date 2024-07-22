@@ -118,7 +118,7 @@ class AkeneoConnector:
 
         return data
     
-    def update(self, url: str, payload: list | dict):
+    def update(self, url: str, payload: list | dict, is_new: bool = False):
         """
         Updates an item in Akeneo.
 
@@ -136,9 +136,13 @@ class AkeneoConnector:
         # Join the JSON-strings into a single string
         data_str = "\n".join(batch_strings)
 
+        # Create headers
+        headers = self.headers.copy()
+        headers['Content-Type'] = 'application/vnd.akeneo.collection+json' if not is_new else 'application/json'
+
         # Set the payload to the joined JSON-strings
         print(f"PATCH {url}")
-        response = req.patch(url, headers=self.headers, data=data_str)
+        response = req.patch(url, headers=headers, data=data_str)
 
         # Check if the request was successful
         if response.status_code < 200 or response.status_code >= 300:
