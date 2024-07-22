@@ -51,11 +51,11 @@ class AkeneoProduct:
         self.uuid = data.get('uuid')
         self.identifier = data.get('identifier')
         self.enabled = data.get('enabled')
-        self.family = data.get('family')
-        self.categories = data.get('categories')
-        self.groups = data.get('groups')
-        self.parent = data.get('parent')
-        self.values = data.get('values')
+        self.family = data.get('family') if data.get('family') is not None else ''
+        self.categories = data.get('categories') if data.get('categories') is not None else []
+        self.groups = data.get('groups') if data.get('groups') is not None else []
+        self.parent = data.get('parent') if data.get('parent') is not None else ''
+        self.values = data.get('values') if data.get('values') is not None else {}
         self.updated_values = {}
         self.created = data.get('created')
         self.updated = data.get('updated')
